@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>AddressBook</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Address Book</h1>
+    <button id="add" class="float-left submit-button" >Add Buddy</button>
+    <button id="remove" class="float-left submit-button" >RemoveBuddy</button>
+
+    <h2>Buddy List</h2>
+    <p th:text="${buddies}" />
+</body>
+</html>
+
+<script type="text/javascript">
+    document.getElementById("add").onclick = function () {
+        location.href = "add";
+    };
+    document.getElementById("remove").onclick = function () {
+        location.href = "remove";
+    };
+</script>
