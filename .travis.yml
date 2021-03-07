@@ -1,5 +1,4 @@
 language: java
+sudo: true
 before_install:
-  - chmod +rx ./mvnw
-jdk:
-  - openjdk8
+  - chmod +x ./mvnw
