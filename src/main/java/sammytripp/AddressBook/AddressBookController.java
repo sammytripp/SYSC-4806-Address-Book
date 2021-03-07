@@ -1,26 +1,28 @@
 package sammytripp.AddressBook;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
 public class AddressBookController {
 
-    private final AddressBookRepository repository;
 
-    AddressBookController(AddressBookRepository repository) {
-        this.repository = repository;
+    private AddressBookRepositoryService service;
+
+    @Autowired
+    AddressBookController(AddressBookRepositoryService service) {
+        this.service = service;
     }
 
     @GetMapping("/")
     public String getAddressBook(Model model) {
-        Optional<AddressBook> addressBook = repository.findById(1L);
+        Optional<AddressBook> addressBook = service.findById(1L);
         if (addressBook.isPresent()) {
             AddressBook book = addressBook.get();
             model.addAttribute("buddies", book.toString());
@@ -39,26 +41,30 @@ public class AddressBookController {
     }
 
     @PostMapping("/add")
-    public void addBuddy(@RequestParam(name="name") String name,
+    public ResponseEntity addBuddy(@RequestParam(name="name") String name,
                          @RequestParam(name="address") String address,
                          @RequestParam(name="telephone") String telephone) {
 
-        Optional<AddressBook> addressBook = repository.findById(1L);
+        Optional<AddressBook> addressBook = service.findById(1L);
         if (addressBook.isPresent()) {
             AddressBook book = addressBook.get();
             book.addBuddy(new BuddyInfo(name, address, telephone));
-            repository.save(book);
+            service.save(book);
         }
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PostMapping("/remove")
-    public void removeBuddy(@RequestBody Map<String, String> body) {
+    public ResponseEntity removeBuddy(@RequestParam(name="name") String name,
+                                      @RequestParam(name="address") String address,
+                                      @RequestParam(name="telephone") String telephone) {
 
-        Optional<AddressBook> addressBook = repository.findById(1L);
+        Optional<AddressBook> addressBook = service.findById(1L);
         if (addressBook.isPresent()) {
             AddressBook book = addressBook.get();
-            book.removeBuddy(new BuddyInfo(body.get("name"), body.get("address"), body.get("telephone")));
-            repository.save(book);
+            book.removeBuddy(new BuddyInfo(name, address, telephone));
+            service.save(book);
         }
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 }

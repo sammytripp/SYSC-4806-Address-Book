@@ -22,18 +22,18 @@ public class AddressBookApplication {
 	}
 
 	@Bean
-	public CommandLineRunner addressBookInit(AddressBookRepository repository) {
+	public CommandLineRunner addressBookInit(AddressBookRepositoryService service) {
 		return (args) -> {
 
 			// save address book
 			List<BuddyInfo> buddyList = new LinkedList<>();
 			//buddyList.add(new BuddyInfo("Thomas", "Toronto", "111 111 1111"));
-			repository.save(new AddressBook(buddyList));
+			service.save(new AddressBook(buddyList));
 
 			// fetch address books
 			log.info("Address books found with findAdd():");
 			log.info("-----------------------------------");
-			for (AddressBook b : repository.findAll()) {
+			for (AddressBook b : service.findAll()) {
 				log.info("Address book ID: " + b.getId());
 				log.info(b.toString());
 			}
@@ -71,7 +71,5 @@ public class AddressBookApplication {
 			log.info("");
 		};
 	}
-
-
 
 }

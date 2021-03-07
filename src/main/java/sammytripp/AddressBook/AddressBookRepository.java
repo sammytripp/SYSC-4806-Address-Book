@@ -1,9 +1,13 @@
 package sammytripp.AddressBook;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
 import java.util.Optional;
 
-public interface AddressBookRepository extends CrudRepository<AddressBook, Long> {
+@RepositoryRestResource(collectionResourceRel="addresses", path="addresses")
+public interface AddressBookRepository extends PagingAndSortingRepository<AddressBook, Long> {
 
-    Optional<AddressBook> findById(Long id);
+    Optional<AddressBook> findById(@Param("id") Long id);
 }
