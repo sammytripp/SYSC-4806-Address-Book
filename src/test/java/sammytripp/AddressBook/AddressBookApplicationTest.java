@@ -12,7 +12,7 @@ class AddressBookApplicationTest {
 	private AddressBookController controller;
 
 	@Test
-	void contextLoads() throws Exception {
+	void contextLoads() {
 		assertThat(controller).isNotNull();
 	}
 
